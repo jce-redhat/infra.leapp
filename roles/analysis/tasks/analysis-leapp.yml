@@ -13,14 +13,14 @@
 
 - name: Install packages for preupgrade analysis on RHEL 7
   ansible.builtin.package:
-    name: "{{ analysis_packages_el7 }}"
-    enablerepo: "{{ analysis_repos_el7 }}"
+    name: "{{ analysis_packages_el7[leapp_upgrade_type] }}"
+    enablerepo: "{{ analysis_repos_el7[leapp_upgrade_type] }}"
     state: latest
   when: ansible_distribution_major_version|int == 7
 
 - name: Install packages for preupgrade analysis on RHEL 8
   ansible.builtin.package:
-    name: "{{ analysis_packages_el8 }}"
+    name: "{{ analysis_packages_el8[leapp_upgrade_type] }}"
     state: latest
   when: ansible_distribution_major_version|int == 8
 

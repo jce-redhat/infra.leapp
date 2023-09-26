@@ -1,4 +1,10 @@
 ---
+leapp_upgrade_type: satellite
+# leapp_upgrade_type: cdn
+# leapp_upgrade_type: rhui
+# TODO: Add support for custom repositories?
+# leapp_upgrade_type: custom
+
 # defaults file for analysis
 analysis_packages_el6:
   - preupgrade-assistant
@@ -8,38 +14,41 @@ analysis_packages_el6:
   - openscap-engine-sce
 
 analysis_packages_el7:
-  # TODO: Seems to cause package dependency problems with post upgrade cleanup.
-  # - leapp-upgrade-el7toel8
-  # Try this instead.
-  - leapp-upgrade
+  satellite:
+    # TODO: Seems to cause package dependency problems with post upgrade cleanup.
+    # - leapp-upgrade-el7toel8
+    # Try this instead.
+    - leapp-upgrade
+  rhui:
+    - leapp-rhui-aws
 
 analysis_packages_el8:
-  # TODO: Seems to cause package dependency problems with post upgrade cleanup.
-  # - leapp-upgrade-el8toel9
-  # Try this instead.
-  - leapp-upgrade
-  # TODO: This should be part of inhibitor remediation.
-  # - vdo
-  # TODO: only w/ rhui for aws
-  # - leapp-rhui-aws
+  satellite:
+    # TODO: Seems to cause package dependency problems with post upgrade cleanup.
+    # - leapp-upgrade-el8toel9
+    # Try this instead.
+    - leapp-upgrade
+    # TODO: This should be part of inhibitor remediation.
+    # - vdo
+    # TODO: only w/ rhui for aws
+    # - leapp-rhui-aws
+  rhui:
+    - leapp-rhui-aws
 
 analysis_repos_el6:
   - rhel-6-server-extras-rpms
   - rhel-6-server-optional-rpms
 
 analysis_repos_el7:
-  - rhel-7-server-extras-rpms
+  satellite:
+    - rhel-7-server-extras-rpms
+  rhui:
+    - rhel-7-server-rhui-extras-rpms
 
 # If defined, leapp_answerfile will be used as the contents of /var/log/leapp/answerfile.
 # leapp_answerfile: |
 #   [remove_pam_pkcs11_module_check]
 #   confirm = True
-
-leapp_upgrade_type: satellite
-# leapp_upgrade_type: cdn
-# leapp_upgrade_type: rhui
-# TODO: Add support for custom repositories?
-# leapp_upgrade_type: custom
 
 leapp_preupg_opts: "{{ '--no-rhsm' if leapp_upgrade_type == 'rhui' else '' }}"
 
